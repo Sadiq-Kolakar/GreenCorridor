@@ -1,135 +1,101 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 
-/* ===== Kinetic Pulse Design System (by StitchMCP) ===== */
+/* ===== StitchMCP Design System Tokens ===== */
 @theme {
-  /* Primary (Urgency/Action) */
-  --color-gv-red: #ff3366;
-  --color-gv-red-glow: #ff4f73;
-  --color-gv-red-soft: #ffb2ba;
-
-  /* Secondary (Safety/Status) */
-  --color-gv-green: #00e676;
-  --color-gv-green-bright: #34ff8d;
-
-  /* Warning */
-  --color-gv-amber: #ffb300;
-
-  /* Surface Hierarchy (Tonal Layering) */
-  --color-gv-dark: #0a0a0f;
-  --color-gv-base: #0e0e13;
-  --color-gv-surface: #131318;
-  --color-gv-card: #1a1a24;
-  --color-gv-card-high: #1f1f25;
-  --color-gv-card-highest: #2a292f;
-  --color-gv-surface-bright: #35343a;
-
-  /* Text on dark surfaces */
-  --color-gv-text: #e4e1e9;
-  --color-gv-text-muted: #ac888b;
-  --color-gv-ghost-border: rgba(92, 63, 66, 0.15);
+  --color-tertiary-fixed: #72fe88;
+  --color-on-tertiary-container: #00320e;
+  --color-on-secondary-container: #00285c;
+  --color-on-secondary-fixed: #001a41;
+  --color-error: #ffb4ab;
+  --color-tertiary: #53e16f;
+  --color-surface-container-lowest: #0e0e0e;
+  --color-primary-container: #ff5545;
+  --color-outline: #ad8883;
+  --color-tertiary-container: #00a741;
+  --color-background: #131313;
+  --color-on-primary-fixed-variant: #930005;
+  --color-error-container: #93000a;
+  --color-on-background: #e5e2e1;
+  --color-on-tertiary-fixed-variant: #00531c;
+  --color-secondary-fixed-dim: #adc6ff;
+  --color-on-error-container: #ffdad6;
+  --color-surface: #131313;
+  --color-on-secondary: #002e69;
+  --color-on-surface: #e5e2e1;
+  --color-on-tertiary: #003911;
+  --color-on-primary-fixed: #410001;
+  --color-primary-fixed: #ffdad5;
+  --color-on-surface-variant: #e7bdb7;
+  --color-surface-variant: #353534;
+  --color-on-primary-container: #5c0002;
+  --color-secondary-container: #4b8eff;
+  --color-secondary: #adc6ff;
+  --color-surface-container-low: #1c1b1b;
+  --color-primary: #ffb4aa;
+  --color-primary-fixed-dim: #ffb4aa;
+  --color-on-primary: #690003;
+  --color-surface-bright: #393939;
+  --color-surface-container-highest: #353534;
+  --color-inverse-primary: #c0000a;
+  --color-on-error: #690005;
+  --color-on-tertiary-fixed: #002107;
+  --color-outline-variant: #5d3f3b;
+  --color-inverse-on-surface: #313030;
+  --color-inverse-surface: #e5e2e1;
+  --color-surface-dim: #131313;
+  --color-on-secondary-fixed-variant: #004493;
+  --color-surface-container-high: #2a2a2a;
+  --color-surface-container: #201f1f;
+  --color-secondary-fixed: #d8e2ff;
+  --color-tertiary-fixed-dim: #53e16f;
+  --color-surface-tint: #ffb4aa;
 }
 
-/* ===== Base Styles ===== */
+/* ===== Base ===== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background-color: #0e0e13;
-  color: #e4e1e9;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #131313;
+  color: #e5e2e1;
+  font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }
 
-/* ===== Glassmorphism & Dashboard Glass ===== */
-.dashboard-glass {
-  background: rgba(26, 26, 36, 0.6);
+/* ===== Material Symbols ===== */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+
+/* ===== Glass Panel ===== */
+.glass-panel {
+  background: rgba(28, 27, 27, 0.6);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(228, 225, 233, 0.06);
-  border-radius: 1rem;
 }
 
-.glass-bright {
-  background: rgba(42, 41, 47, 0.5);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(228, 225, 233, 0.08);
-  border-radius: 0.75rem;
+/* ===== Animations ===== */
+.pulse-secondary {
+  animation: pulse-op 2s infinite ease-in-out;
+}
+@keyframes pulse-op {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
 }
 
-/* ===== Glow Effects ===== */
-.glow-red {
-  box-shadow: 0 0 40px rgba(255, 51, 102, 0.35),
-              0 0 80px rgba(255, 51, 102, 0.15),
-              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+.glow-emergency {
+  filter: drop-shadow(0 0 8px #ff5545);
 }
 
-.glow-green {
-  box-shadow: 0 0 30px rgba(0, 230, 118, 0.3),
-              0 0 60px rgba(0, 230, 118, 0.1);
-}
-
-.glow-amber {
-  box-shadow: 0 0 40px rgba(255, 179, 0, 0.25),
-              0 0 80px rgba(255, 179, 0, 0.1);
-}
-
-/* ===== Alert Banner ===== */
-@keyframes emergency-pulse {
-  0%, 100% { background-color: #ff3366; }
-  50% { background-color: #cc1a47; }
-}
-
-.animate-emergency {
-  animation: emergency-pulse 1s ease-in-out infinite;
-}
-
-/* ===== Pulse Dot ===== */
-@keyframes pulse-glow {
-  0%, 100% { opacity: 1; box-shadow: 0 0 8px currentColor; }
-  50% { opacity: 0.6; box-shadow: 0 0 20px currentColor; }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* ===== Monospace for data ===== */
-.font-mono {
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
-}
-
-/* ===== ETA Counter ===== */
-.eta-display {
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 700;
-  font-size: 4.5rem;
-  letter-spacing: -0.05em;
-  font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 30px rgba(255, 179, 0, 0.4);
-}
-
-/* ===== Scrollbar Styling ===== */
+/* ===== Scrollbar ===== */
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #0e0e13; }
-::-webkit-scrollbar-thumb { background: #35343a; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #ac888b; }
-
-/* ===== Checklist Item ===== */
-.checklist-item {
-  transition: all 0.2s ease;
-  border: 1px solid rgba(228, 225, 233, 0.06);
-  border-radius: 0.75rem;
-  padding: 1rem 1.25rem;
-  cursor: pointer;
-}
-
-.checklist-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.checklist-item.checked {
-  background: rgba(0, 230, 118, 0.08);
-  border-color: rgba(0, 230, 118, 0.2);
-}
+::-webkit-scrollbar-track { background: #131313; }
+::-webkit-scrollbar-thumb { background: #353534; border-radius: 4px; }
