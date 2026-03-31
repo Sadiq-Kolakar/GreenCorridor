@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { db } from './services/firebase';
 import { ref, onValue } from 'firebase/database';
 import type { IEmergencySession, IHospitalPrep } from './types/index';
+import TrackingMap from './components/TrackingMap';
 
 function App() {
   const [activeSession, setActiveSession] = useState<IEmergencySession | null>(null);
@@ -90,12 +91,8 @@ function App() {
                <h3 className="font-bold tracking-wide">LIVE AMBULANCE TRACKING</h3>
                <span className="text-gv-green text-sm flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-gv-green animate-pulse"></span> GPS Live ({activeSession.currentLat.toFixed(4)}, {activeSession.currentLng.toFixed(4)})</span>
              </div>
-             <div className="flex-1 bg-black/40 relative">
-                {/* Mock Map Background */}
-                <div className="absolute inset-0 opacity-20 bg-[url('https://maps.googleapis.com/maps/api/staticmap?center=Bangalore&zoom=14&size=800x600&maptype=roadmap&key=DUMMY')] bg-cover bg-center"></div>
-                <div className="absolute inset-0 flex items-center justify-center text-white/30 tracking-[0.5em] font-light text-xl">
-                  [ GOOGLE MAPS RENDERING ]
-                </div>
+             <div className="flex-1">
+               <TrackingMap ambulanceLat={activeSession.currentLat} ambulanceLng={activeSession.currentLng} />
              </div>
           </div>
         </div>
