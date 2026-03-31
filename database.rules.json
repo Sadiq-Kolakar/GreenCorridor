@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "emergency_sessions": {
+      ".read": true,
+      ".write": true
+    },
+    "signal_states": {
+      ".read": true,
+      ".write": true
+    },
+    "hospital_prep": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}
