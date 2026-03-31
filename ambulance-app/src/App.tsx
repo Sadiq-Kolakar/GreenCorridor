@@ -106,7 +106,7 @@ function App() {
       </aside>
 
       {/* ===== Main Canvas ===== */}
-      <main className="pt-16 pb-20 xl:pb-0 xl:pl-64 min-h-screen w-full flex flex-col">
+      <main className="pt-16 pb-20 xl:pb-0 xl:pl-64 min-h-screen w-full flex flex-col relative z-10">
         {/* Header Strip */}
         <div className="px-6 py-4 flex flex-wrap justify-between items-center bg-surface-container-low/40 border-b border-outline-variant/10">
           <div className="flex items-center gap-3">
@@ -180,28 +180,28 @@ function App() {
 
         {/* ===== SEVERITY VIEW ===== */}
         {step === 'severity' && (
-          <div className="flex-1 p-6 flex flex-col items-center justify-center overflow-y-auto">
+          <div className="flex-1 p-6 flex flex-col items-center justify-center overflow-y-auto relative z-20">
             <h2 className="text-2xl font-bold text-on-surface mb-2 uppercase tracking-widest">Select Patient Severity</h2>
             <p className="text-on-surface/40 text-sm mb-8">Classification determines corridor priority level</p>
             <div className="w-full max-w-lg space-y-4">
-              <button onClick={() => handleSeveritySelect('critical')}
-                className="w-full bg-error-container text-on-error-container p-8 rounded-xl flex items-center gap-6 glow-emergency active:scale-95 transition-transform shadow-2xl border border-primary/20 hover:bg-error-container/80">
+              <button type="button" onClick={() => handleSeveritySelect('critical')}
+                className="w-full bg-error-container text-on-error-container p-8 rounded-xl flex items-center gap-6 glow-emergency active:scale-95 transition-transform shadow-2xl border border-primary/20 hover:bg-error-container/80 cursor-pointer pointer-events-auto">
                 <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>emergency</span>
                 <div className="text-left">
                   <span className="text-xl font-black uppercase tracking-widest">CRITICAL</span>
                   <br /><span className="text-xs font-semibold opacity-80 uppercase tracking-wider">Life-threatening condition</span>
                 </div>
               </button>
-              <button onClick={() => handleSeveritySelect('moderate')}
-                className="w-full bg-[#ffb300] text-black p-8 rounded-xl flex items-center gap-6 active:scale-95 transition-transform shadow-2xl border border-[#ffb300]/20 hover:bg-[#ffb300]/80">
+              <button type="button" onClick={() => handleSeveritySelect('moderate')}
+                className="w-full bg-[#ffb300] text-black p-8 rounded-xl flex items-center gap-6 active:scale-95 transition-transform shadow-2xl border border-[#ffb300]/20 hover:bg-[#ffb300]/80 cursor-pointer pointer-events-auto">
                 <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>warning</span>
                 <div className="text-left">
                   <span className="text-xl font-black uppercase tracking-widest">MODERATE</span>
                   <br /><span className="text-xs font-semibold opacity-80 uppercase tracking-wider">Serious but stable vitals</span>
                 </div>
               </button>
-              <button onClick={() => handleSeveritySelect('stable')}
-                className="w-full bg-tertiary-container text-on-tertiary-container p-8 rounded-xl flex items-center gap-6 active:scale-95 transition-transform shadow-2xl border border-tertiary/20 hover:bg-tertiary-container/80">
+              <button type="button" onClick={() => handleSeveritySelect('stable')}
+                className="w-full bg-tertiary-container text-on-tertiary-container p-8 rounded-xl flex items-center gap-6 active:scale-95 transition-transform shadow-2xl border border-tertiary/20 hover:bg-tertiary-container/80 cursor-pointer pointer-events-auto">
                 <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                 <div className="text-left">
                   <span className="text-xl font-black uppercase tracking-widest">STABLE</span>
