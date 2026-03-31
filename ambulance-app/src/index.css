@@ -1,9 +1,19 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* Custom theme tokens */
+@theme {
+  --color-gv-dark: #0a0a0f;
+  --color-gv-card: #1a1a24;
+  --color-gv-red: #ff3366;
+  --color-gv-green: #00e676;
+  --color-gv-amber: #ffb300;
+}
 
 @layer base {
   body {
-    @apply bg-gv-dark text-white font-sans antialiased;
-  }
+    background-color: var(--color-gv-dark);
+    color: white;
+    font-family: system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+ }
 }
