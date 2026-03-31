@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Custom theme tokens */
+/* Custom theme tokens for Tailwind v4 */
 @theme {
   --color-gv-dark: #0a0a0f;
   --color-gv-card: #1a1a24;
@@ -9,11 +9,9 @@
   --color-gv-amber: #ffb300;
 }
 
-@layer base {
-  body {
-    background-color: var(--color-gv-dark);
-    color: white;
-    font-family: system-ui, -apple-system, sans-serif;
-    -webkit-font-smoothing: antialiased;
- }
+body {
+  background-color: #0a0a0f;
+  color: white;
+  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
