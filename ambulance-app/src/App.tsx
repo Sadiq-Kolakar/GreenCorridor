@@ -22,9 +22,16 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ driverName: 'Ravi Kumar', severity: level, hospitalId: 'hosp-001' })
       });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
-      if (data.session) { setSessionId(data.session.id); setStep('active'); }
+      if (data.session) {
+        setSessionId(data.session.id);
+      } else {
+        setSessionId('demo-session-' + Date.now());
+      }
+      setStep('active');
     } catch {
+      // Demo fallback — works even without backend
       setSessionId('demo-session-' + Date.now());
       setStep('active');
     }
