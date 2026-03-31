@@ -10,7 +10,6 @@ function App() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [severity, setSeverity] = useState<Severity>('critical');
   
-  // Custom hook that broadcasts location if sessionId is active
   useGPSBroadcast(sessionId);
 
   const handleActivate = () => {
@@ -19,25 +18,21 @@ function App() {
 
   const handleSeveritySelect = async (level: Severity) => {
     setSeverity(level);
-    
-    // Call Backend API to create session
     try {
       const res = await fetch('http://localhost:3000/api/emergency/activate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          driverName: 'Ravi Kumar',
-          severity: level,
-          hospitalId: 'hosp-001'
-        })
+        body: JSON.stringify({ driverName: 'Ravi Kumar', severity: level, hospitalId: 'hosp-001' })
       });
       const data = await res.json();
       if (data.session) {
         setSessionId(data.session.id);
         setStep('active');
       }
-    } catch (err) {
-      alert("Failed to activate emergency");
+    } catch {
+      // For demo: skip backend and go directly to active state
+      setSessionId('demo-session-' + Date.now());
+      setStep('active');
     }
   };
 
@@ -49,55 +44,62 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId })
       });
-      setSessionId(null);
-      setStep('standby');
-      alert("Arrived. Signals restored.");
-    } catch (err) {
-      alert("Error confirming arrival");
-    }
+    } catch { /* ignore */ }
+    setSessionId(null);
+    setStep('standby');
   };
 
   return (
-    <div className="min-h-screen bg-gv-dark text-white p-6 flex flex-col">
-      <header className="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
-        <h1 className="text-xl font-bold">🚑 Green Corridor AI</h1>
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-gv-green animate-pulse"></span>
-          <span className="text-sm font-medium text-white/70">GPS Lock</span>
+    <div className="min-h-screen bg-gv-base text-gv-text flex flex-col" style={{ fontFamily: "'Inter', sans-serif" }}>
+      {/* Header */}
+      <header className="flex justify-between items-center px-6 py-4 bg-gv-surface">
+        <div className="flex items-center gap-3">
+          <span className="text-xl">🚑</span>
+          <h1 className="text-lg font-bold tracking-tight">Green Corridor AI</h1>
+        </div>
+        <div className="flex items-center gap-2 text-gv-green text-sm">
+          <span className="w-2 h-2 rounded-full bg-gv-green animate-pulse-glow" style={{ color: '#00e676' }}></span>
+          GPS Lock
         </div>
       </header>
 
+      {/* ===== STANDBY ===== */}
       {step === 'standby' && (
-        <main className="flex-1 flex flex-col justify-center">
-          <div className="bg-gv-card p-6 rounded-2xl border border-white/5 mb-8">
-            <h2 className="text-lg text-white/50 mb-1">VEHICLE: KA-01-AB-1234</h2>
-            <p className="text-2xl font-semibold text-gv-green mb-4">STANDBY</p>
-            <p className="text-sm text-white/50">Driver: Ravi Kumar</p>
+        <main className="flex-1 flex flex-col justify-center px-6 pb-8">
+          <div className="glass p-6 mb-8">
+            <span className="text-xs uppercase tracking-widest text-gv-text-muted">Vehicle</span>
+            <h2 className="text-lg font-semibold mt-1">KA-01-AB-1234</h2>
+            <div className="flex items-center gap-2 mt-3">
+              <span className="w-2 h-2 rounded-full bg-gv-green"></span>
+              <span className="text-gv-green font-semibold text-xl">STANDBY</span>
+            </div>
+            <p className="text-sm text-gv-text-muted mt-2">Driver: Ravi Kumar</p>
           </div>
           
           <button 
             onClick={handleActivate}
-            className="w-full bg-gv-red text-white text-2xl font-bold py-12 rounded-3xl shadow-[0_0_40px_rgba(255,51,102,0.4)] hover:scale-[1.02] transition-transform active:scale-95"
+            className="w-full bg-gv-red text-white text-2xl font-bold py-14 rounded-2xl glow-red hover:scale-[1.02] transition-transform active:scale-95"
           >
             ACTIVATE EMERGENCY
-            <span className="block text-sm font-normal opacity-80 mt-2">(tap to start)</span>
+            <span className="block text-sm font-normal opacity-80 mt-2">tap to start corridor</span>
           </button>
         </main>
       )}
 
+      {/* ===== SEVERITY ===== */}
       {step === 'severity' && (
-        <main className="flex-1 flex flex-col justify-center animate-in fade-in zoom-in duration-300">
+        <main className="flex-1 flex flex-col justify-center px-6">
           <h2 className="text-2xl font-bold mb-6 text-center">Select Patient Severity</h2>
           <div className="space-y-4">
-            <button onClick={() => handleSeveritySelect('critical')} className="w-full bg-[#ff3366] text-white text-xl font-bold py-8 rounded-2xl flex flex-col items-center shadow-lg active:scale-95 transition-transform">
+            <button onClick={() => handleSeveritySelect('critical')} className="w-full bg-gv-red text-white text-xl font-bold py-10 rounded-2xl flex flex-col items-center glow-red active:scale-95 transition-transform">
               <span>🔴 CRITICAL</span>
               <span className="text-sm font-normal opacity-80 mt-1">Life-threatening condition</span>
             </button>
-            <button onClick={() => handleSeveritySelect('moderate')} className="w-full bg-gv-amber text-white text-xl font-bold py-8 rounded-2xl flex flex-col items-center shadow-lg active:scale-95 transition-transform">
+            <button onClick={() => handleSeveritySelect('moderate')} className="w-full bg-gv-amber text-black text-xl font-bold py-10 rounded-2xl flex flex-col items-center shadow-lg active:scale-95 transition-transform">
               <span>🟡 MODERATE</span>
               <span className="text-sm font-normal opacity-80 mt-1">Serious but stable vitals</span>
             </button>
-            <button onClick={() => handleSeveritySelect('stable')} className="w-full bg-gv-green text-gray-900 text-xl font-bold py-8 rounded-2xl flex flex-col items-center shadow-lg active:scale-95 transition-transform">
+            <button onClick={() => handleSeveritySelect('stable')} className="w-full bg-gv-green text-black text-xl font-bold py-10 rounded-2xl flex flex-col items-center glow-green active:scale-95 transition-transform">
               <span>🟢 STABLE</span>
               <span className="text-sm font-normal opacity-80 mt-1">Conscious, talking</span>
             </button>
@@ -105,36 +107,41 @@ function App() {
         </main>
       )}
 
+      {/* ===== ACTIVE EMERGENCY ===== */}
       {step === 'active' && (
-        <main className="flex-1 flex flex-col h-full animate-in slide-in-from-bottom-5">
-          <div className="bg-gv-red text-white p-4 rounded-t-2xl flex justify-between items-center shadow-lg">
+        <main className="flex-1 flex flex-col">
+          {/* Emergency Status Bar */}
+          <div className="animate-emergency text-white p-4 flex justify-between items-center shadow-lg">
             <span className="font-bold flex items-center gap-2">🔴 EMERGENCY ACTIVE</span>
-            <span className="font-mono text-xl font-bold tracking-wider">ETA: 04:32</span>
+            <span className="font-mono text-xl font-bold tracking-wider">ETA 04:32</span>
           </div>
           
-          <div className="h-64 w-full overflow-hidden">
-             <LiveMap ambulancePos={null} isActive={true} />
+          {/* Live Map */}
+          <div className="h-64 w-full">
+            <LiveMap ambulancePos={null} isActive={true} />
           </div>
 
-          <div className="bg-gv-card p-4 rounded-b-2xl border-x border-b border-white/10 mb-6">
-            <h3 className="text-xs text-white/50 uppercase tracking-widest mb-2">Signal Chain</h3>
+          {/* Signal Chain */}
+          <div className="bg-gv-card p-4 mx-4 rounded-xl mt-4">
+            <h3 className="text-xs text-gv-text-muted uppercase tracking-widest mb-3">Signal Chain Status</h3>
             <div className="flex gap-2 overflow-x-auto pb-2">
-              <div className="bg-white/5 px-3 py-1.5 rounded text-sm whitespace-nowrap"><span className="opacity-50 line-through">✅ S1: MG Road</span></div>
-              <div className="bg-gv-green/20 border border-gv-green text-gv-green px-3 py-1.5 rounded text-sm whitespace-nowrap animate-pulse font-bold">🟢 S2: Brigade Rd (CLEARED)</div>
-              <div className="bg-white/10 text-white/70 px-3 py-1.5 rounded text-sm whitespace-nowrap">🔴 S3: Trinity</div>
-              <div className="bg-white/10 text-white/70 px-3 py-1.5 rounded text-sm whitespace-nowrap">🔴 S4: Indiranagar</div>
+              <div className="glass-bright px-3 py-2 text-sm whitespace-nowrap opacity-50 line-through">✅ S1: MG Road</div>
+              <div className="bg-gv-green/15 border border-gv-green/40 text-gv-green px-3 py-2 rounded-lg text-sm whitespace-nowrap animate-pulse font-bold">🟢 S2: Brigade Rd</div>
+              <div className="glass-bright px-3 py-2 text-sm whitespace-nowrap text-gv-text-muted">🔴 S3: Trinity</div>
+              <div className="glass-bright px-3 py-2 text-sm whitespace-nowrap text-gv-text-muted">🔴 S4: Indiranagar</div>
             </div>
             
-            <div className="mt-4 pt-4 border-t border-white/10 flex flex-col gap-1">
-              <div className="flex justify-between"><span className="text-white/50">Severity:</span> <span className="font-bold capitalize text-gv-red">{severity}</span></div>
-              <div className="flex justify-between"><span className="text-white/50">Hospital:</span> <span>City General (1.8 km)</span></div>
+            <div className="mt-4 pt-4 border-t border-white/5 grid grid-cols-2 gap-2 text-sm">
+              <div><span className="text-gv-text-muted">Severity:</span> <span className="font-bold capitalize text-gv-red">{severity}</span></div>
+              <div><span className="text-gv-text-muted">Hospital:</span> <span className="font-medium">City General</span></div>
             </div>
           </div>
 
-          <div className="mt-auto">
+          {/* Arrived Button */}
+          <div className="mt-auto p-4">
             <button 
               onClick={handleArrived}
-              className="w-full bg-gv-green text-gray-900 text-xl font-bold py-6 rounded-2xl shadow-[0_0_30px_rgba(0,230,118,0.3)] hover:scale-[1.02] transition-transform active:scale-95"
+              className="w-full bg-gv-green text-black text-xl font-bold py-6 rounded-2xl glow-green hover:scale-[1.02] transition-transform active:scale-95"
             >
               ✅ ARRIVED AT HOSPITAL
             </button>
