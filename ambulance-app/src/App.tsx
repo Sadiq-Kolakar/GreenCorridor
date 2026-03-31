@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGPSBroadcast } from './hooks/useGPSBroadcast';
 import { Severity } from './types/index';
+import LiveMap from './components/LiveMap';
 
 type AppStep = 'standby' | 'severity' | 'active';
 
@@ -111,10 +112,8 @@ function App() {
             <span className="font-mono text-xl font-bold tracking-wider">ETA: 04:32</span>
           </div>
           
-          <div className="bg-white/10 h-64 w-full flex items-center justify-center relative overflow-hidden">
-             {/* Map Placeholder */}
-             <div className="absolute inset-0 opacity-20 bg-[url('https://maps.googleapis.com/maps/api/staticmap?center=Bangalore&zoom=13&size=600x300&maptype=roadmap&key=DUMMY')] bg-cover bg-center"></div>
-             <div className="relative z-10 font-bold text-white/50 text-xl tracking-widest">[ LIVE ROUTE MAP ]</div>
+          <div className="h-64 w-full overflow-hidden">
+             <LiveMap ambulancePos={null} isActive={true} />
           </div>
 
           <div className="bg-gv-card p-4 rounded-b-2xl border-x border-b border-white/10 mb-6">
