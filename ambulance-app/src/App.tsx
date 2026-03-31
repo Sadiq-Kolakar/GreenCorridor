@@ -106,7 +106,7 @@ function App() {
       </aside>
 
       {/* ===== Main Canvas ===== */}
-      <main className="pt-16 pb-20 xl:pb-0 xl:pl-64 h-screen w-full flex flex-col">
+      <main className="pt-16 pb-20 xl:pb-0 xl:pl-64 min-h-screen w-full flex flex-col">
         {/* Header Strip */}
         <div className="px-6 py-4 flex flex-wrap justify-between items-center bg-surface-container-low/40 border-b border-outline-variant/10">
           <div className="flex items-center gap-3">
@@ -180,7 +180,7 @@ function App() {
 
         {/* ===== SEVERITY VIEW ===== */}
         {step === 'severity' && (
-          <div className="flex-1 p-6 flex flex-col items-center justify-center">
+          <div className="flex-1 p-6 flex flex-col items-center justify-center overflow-y-auto">
             <h2 className="text-2xl font-bold text-on-surface mb-2 uppercase tracking-widest">Select Patient Severity</h2>
             <p className="text-on-surface/40 text-sm mb-8">Classification determines corridor priority level</p>
             <div className="w-full max-w-lg space-y-4">
